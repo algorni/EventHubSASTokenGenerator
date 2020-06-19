@@ -1,0 +1,24 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "EHDataProducerConfig": {
+    "EventHubConnectionString": "Endpoint=sb://load-test-event-hub.servicebus.windows.net;SharedAccessKeyName=sendToken;SharedAccessKey=wUORRX0Ob9dlvxrwMLWZ8bkKhwwWwkLHQr0NRRqBTHY=;EntityPath=bigingestion",
+
+    "BatchSize": 10,
+
+    "ParallelSender": 20,
+
+    "MaxTimeBetweenSendBatchOperationInMillieconds": 50
+  }
+}
