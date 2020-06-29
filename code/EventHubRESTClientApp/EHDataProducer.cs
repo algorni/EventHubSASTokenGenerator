@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EventHubRESTClientApp
 {
-    public class EHDataProducer : IHostedService, IDisposable
+    public class EHDataProducer : BackgroundService, IHostedService, IDisposable
     {
         private readonly Microsoft.Extensions.Logging.ILogger _logger;
         private readonly IOptions<EHDataProducerConfig> _config;
@@ -34,13 +34,21 @@ namespace EventHubRESTClientApp
             ehRestApiClient = new EHRestApiClient(logger, _config.Value.EventHubConnectionString, expireTime);
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public override Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Starting Event Hub Data Producer with following configuration: " + JsonSerializer.Serialize( _config.Value) );
 
-            while (!cancellationToken.IsCancellationRequested)
+            return Task.CompletedTask;
+        }
+
+        DateTime lastMetric = DateTime.UtcNow;
+
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
             {
-                for (int par = 0; par < _config.Value.ParallelSender; par++) 
+                for (int par = 0; par < _config.Value.ParallelSender; par++)
                 {
                     Task.Factory.StartNew(() => sendEventHubData());
                 }
@@ -54,9 +62,6 @@ namespace EventHubRESTClientApp
 
             return Task.CompletedTask;
         }
-
-        DateTime lastMetric = DateTime.UtcNow;
-
 
         private async Task sendEventHubData()
         {
@@ -93,16 +98,10 @@ namespace EventHubRESTClientApp
         }
 
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public override Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Stopping Event Hub Sender.");
             return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            _logger.LogInformation("LogProducer....");
-
         }
     }
 }
