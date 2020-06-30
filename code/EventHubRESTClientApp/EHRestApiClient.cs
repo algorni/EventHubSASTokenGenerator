@@ -107,16 +107,12 @@ namespace EventHubRESTClientApp
 
             var url = "https://" + sbHost + $"/{entityPath}/messages?timeout=60&api-version=2014-01";
 
-            //var wrapperPayload = from b in batch
-            //                    select new { Body = JsonSerializer.Serialize(b) };
-
-            //var payload = JsonSerializer.Serialize(wrapperPayload);
-
             var payload = batch.ToRESTInterfaceJsonString();
 
-            StringContent content = new StringContent(payload,Encoding.UTF8);
+            StringContent content = new StringContent(payload); //,Encoding.UTF8, "application/vnd.microsoft.servicebus.json");
 
             content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.microsoft.servicebus.json");
+
             httpClient.DefaultRequestHeaders.Remove("Authorization");
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", sasToken);
 

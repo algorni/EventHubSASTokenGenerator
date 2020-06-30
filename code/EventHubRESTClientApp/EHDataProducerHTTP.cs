@@ -52,6 +52,9 @@ namespace EventHubRESTClientApp
             {
                 for (int par = 0; par < _config.Value.ParallelSender; par++)
                 {
+                    var waitBeforeStarting= _rnd.Next(0, 100);
+                    Task.Delay(waitBeforeStarting).Wait();
+
                     Task.Factory.StartNew(() => sendEventHubData());
                 }
 

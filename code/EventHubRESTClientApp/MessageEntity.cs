@@ -37,6 +37,8 @@ namespace EventHubRESTClientApp
 
                 var eventData = new EventData(eventBodyBytes);
 
+                //this should result in almost 1.5KB of message
+
                 batch.Add(eventData);           
             }
 
@@ -47,10 +49,12 @@ namespace EventHubRESTClientApp
         {
             List<string> justNoise = new List<string>();
 
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < 26; i++)
             {
                 justNoise.Add(Guid.NewGuid().ToString());
             }
+
+            
 
             return string.Join("-", justNoise);
         }

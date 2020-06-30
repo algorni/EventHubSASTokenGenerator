@@ -39,9 +39,13 @@ namespace EventHubRESTClientApp
         private static object extractStringBody(EventData e)
         {
             //simplification here --> assume EventData body as a proper string
-            var str = System.Text.Encoding.Default.GetString(e.Body.ToArray());
+            var bodyString = System.Text.Encoding.Default.GetString(e.Body.ToArray());
 
-            return str;
+            return bodyString;
+
+            //try with pure json object not escaped but EH returning error
+            //object jsonObj = JsonSerializer.Deserialize<object>(bodyString);
+            //return jsonObj;
         }
     }
 }
