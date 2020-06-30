@@ -17,3 +17,35 @@ It requires 3 mandatory command line parameters plus 1 optional:
        This tool is *NOT* intended for a production utilization.
        This is a sample and provided as it is.
 
+# Bonus ---> Sample HTTP Client for Event Hub 
+This repository includes also a sample .net core console app project running a background task
+which send multiple HTTP request to the Event Hub HTTP Endpoint with an eavy payload to test out 
+the scalability of that endpoint!
+
+You need to add an appConfig.json file with the configuration
+
+```json 
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "EHDataProducerConfig": {
+    "EventHubConnectionString": "Endpoint=sb://<your event hub namespace>.servicebus.windows.net/;SharedAccessKeyName=<yourKeyName>;SharedAccessKey=<theKey>;EntityPath=<yourEventHubName>",
+    "BatchSize": 10,
+    "ParallelSender": 30,
+    "MaxTimeBetweenSendBatchOperationInMillieconds": 50
+  }
+}
+```
+
+
