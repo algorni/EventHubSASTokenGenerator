@@ -12,7 +12,6 @@ namespace EventHubRESTClientApp
 
         public int ParallelSender { get; set; }
 
-
         public int MaxTimeBetweenSendBatchOperationInMillieconds { get; set; }
     }
 }

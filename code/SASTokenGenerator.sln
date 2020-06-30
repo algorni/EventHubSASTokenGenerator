@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SASTokenGenerator", "SASTok
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHubRESTClientApp", "EventHubRESTClientApp\EventHubRESTClientApp.csproj", "{09280FD8-343E-4D75-B245-D3B1E87AB1B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHubReceiverFunctionApp", "EventHubReceiverFunctionApp\EventHubReceiverFunctionApp.csproj", "{FC797594-E357-477B-BF79-F84FA37D5C95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIP", "WIP\WIP.csproj", "{0739F0F4-9438-43FD-A795-F3ED4A0FC302}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{09280FD8-343E-4D75-B245-D3B1E87AB1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09280FD8-343E-4D75-B245-D3B1E87AB1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09280FD8-343E-4D75-B245-D3B1E87AB1B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC797594-E357-477B-BF79-F84FA37D5C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC797594-E357-477B-BF79-F84FA37D5C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC797594-E357-477B-BF79-F84FA37D5C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC797594-E357-477B-BF79-F84FA37D5C95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0739F0F4-9438-43FD-A795-F3ED4A0FC302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0739F0F4-9438-43FD-A795-F3ED4A0FC302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0739F0F4-9438-43FD-A795-F3ED4A0FC302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0739F0F4-9438-43FD-A795-F3ED4A0FC302}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

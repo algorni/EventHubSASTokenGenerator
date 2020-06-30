@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Azure.Messaging.EventHubs;
 
 namespace EventHubRESTClientApp
 {
@@ -96,22 +97,34 @@ namespace EventHubRESTClientApp
         }
 
 
-        public async Task<HttpResponseMessage> SendMessageBatchAsync(object[] sendwhat)
+        public async Task<HttpResponseMessage> SendMessageBatchAsync(List<EventData> batch)
         {
             // POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
             // Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=your-sas-key&se=1456197782&skn=RootManageSharedAccessKey  
             // Content-Type: application/vnd.microsoft.servicebus.json  
             // Host: your-namespace.servicebus.windows.net  
-            // [{"Body":"Message1", "UserProperties":{"Alert":"Strong Wind"}},{"Body":"Message2"},{"Body":"Message3"}]  
+            // [{"Body":"Message1", "UserProperties":{"Alert":"Strong Wind"},"BrokerProperties":{"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
 
-            var hrm = new HttpRequestMessage(HttpMethod.Post, "https://" + sbHost + $"/{entityPath}/messages?timeout=60&api-version=2014-01");
-            hrm.Headers.Add("Authorization", sasToken);
+            var url = "https://" + sbHost + $"/{entityPath}/messages?timeout=60&api-version=2014-01";
 
-            StringContent stc = new StringContent(JsonSerializer.Serialize(sendwhat), Encoding.UTF8, "application/vnd.microsoft.servicebus.json");
+            //var wrapperPayload = from b in batch
+            //                    select new { Body = JsonSerializer.Serialize(b) };
 
-            hrm.Content = stc;
+            //var payload = JsonSerializer.Serialize(wrapperPayload);
 
-            var result = await httpClient.SendAsync(hrm);
+            var payload = batch.ToRESTInterfaceJsonString();
+
+            StringContent content = new StringContent(payload,Encoding.UTF8);
+
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.microsoft.servicebus.json");
+            httpClient.DefaultRequestHeaders.Remove("Authorization");
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", sasToken);
+
+            DateTime startCallTime = DateTime.UtcNow;
+
+            var result = await httpClient.PostAsync(url, content);
+
+            TimeSpan callDuration = DateTime.UtcNow - startCallTime;
 
             return result;
         }

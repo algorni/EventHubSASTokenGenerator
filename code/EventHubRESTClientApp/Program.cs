@@ -54,7 +54,13 @@ namespace EventHubRESTClientApp
 
                     services.Configure<EHDataProducerConfig>(hostContext.Configuration.GetSection("EHDataProducerConfig"));
 
-                    services.AddSingleton<IHostedService, EHDataProducer>();
+                    
+
+                    //Try the HTTP or the AMQP EH Data Producer
+                    
+                    //services.AddSingleton<IHostedService, EHDataProducerHTTP>();
+                    services.AddSingleton<IHostedService, EHDataProducerAMQP>();
+
                 })
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
